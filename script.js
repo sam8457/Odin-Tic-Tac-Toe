@@ -1,9 +1,9 @@
 
 class Gameboard {
 
-    #board = [[" "," "," "],
-              [" "," "," "],
-              [" "," "," "]]
+    #board = [["X"," "," "],
+              [" ","O"," "],
+              [" "," ","X"]]
     #Xturn = true
 
     get boardState() {
@@ -33,5 +33,22 @@ class Gameboard {
 }
 
 // TODO: add a gui class
+class Display {
+
+    static render(board) {
+        for (let y = 0; y < board.length; y++) {
+            for (let x = 0; x < board[y].length; x++) {
+                
+                let box = document.getElementsByClassName(`x${x} y${y}`)[0] // elements should be unique
+                box.textContent = board[y][x]
+
+            }
+        }
+    }
+
+    
+
+}
 
 let myGameboard = new Gameboard()
+Display.render(myGameboard.boardState)
