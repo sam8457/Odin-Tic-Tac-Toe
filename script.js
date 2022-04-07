@@ -11,6 +11,7 @@ class Gameboard {
     }
 
     placeMarker(x, y) {
+        let wasSuccessful
 
         if (this.#board[y][x] == " ") {
 
@@ -21,18 +22,18 @@ class Gameboard {
             }
 
             this.#Xturn = !this.#Xturn // change turn
-        } else {
-            // TODO: add code to warn user of invalid move
-        }
 
+            wasSuccessful = true
+        } else {
+            wasSuccessful = false
+        }
         // TODO: check for victory
 
-        return this.boardState
+        return wasSuccessful
     }
 
 }
 
-// TODO: add a gui class
 class Display {
 
     static render(gameBoard) {
