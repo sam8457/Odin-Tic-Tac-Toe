@@ -86,3 +86,54 @@ main {
     transform: translate(0px,-6px);
     box-shadow: 0px 7px 10px 0px var(--dark-green);
 }
+
+.dimmer {
+    position: fixed;
+    align-self: center;
+    justify-self: center;
+
+    height: 100%;
+    width: 100%;
+
+    background-color: black;
+    opacity: 50%;
+}
+
+.popup {
+    position: fixed;
+    align-self: center;
+    justify-self: center;
+
+    height: 20rem;
+    width: 30rem;
+
+    background-color: var(--green);
+    border: 1rem solid var(--grey);
+    border-radius: 1rem;
+
+    text-align: center;
+    font-size: 3rem;
+
+    color: var(--grey);
+}
+
+.popup button {
+    background-color: var(--green);
+
+    border-style: solid;
+    border-color: var(--grey);
+    border-radius: 2rem;
+
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+
+    color: var(--grey);
+}
+
+.popup button:hover {
+    background-color: var(--light-green);
+}
+
+.popup button:active {
+    background-color: var(--forrest-green);
+}

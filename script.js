@@ -32,6 +32,55 @@ class Gameboard {
         return wasSuccessful
     }
 
+    // to be a viable win group, all values must match and not blank
+    areWinGroup(a,b,c) {
+        if ((a == b && b == c) && (a != " ")) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    checkWin() {
+        let a, b, c
+
+        // check if rows are same
+        for(let y = 0; y < 3; y++) {
+            a = this.#board[y][0]
+            b = this.#board[y][1]
+            c = this.#board[y][2]
+            if (this.areWinGroup(a,b,c)) {
+                return true
+            }  
+        }
+
+        // check if columns are same
+        for(let x = 0; x < 3; x++) {
+            a = this.#board[0][x]
+            b = this.#board[1][x]
+            c = this.#board[2][x]
+            if (this.areWinGroup(a,b,c)) {
+                return true
+            }  
+        }
+
+        // check if diagonals are same
+        a = this.#board[0][0]
+        b = this.#board[1][1]
+        c = this.#board[2][2]
+        if (this.areWinGroup(a,b,c)) {
+            return true
+        }  
+        a = this.#board[0][2]
+        b = this.#board[1][1]
+        c = this.#board[2][0]
+        if (this.areWinGroup(a,b,c)) {
+            return true
+        }
+
+        return false // only remaining possibility is no win
+    }
+
 }
 
 class Display {
@@ -59,6 +108,7 @@ class Display {
                 box.addEventListener("click", function() {
                     gameBoard.placeMarker(x,y)
                     Display.render(gameBoard)
+                    console.log(gameBoard.checkWin())
                 })
 
             }
@@ -70,3 +120,6 @@ class Display {
 let myGameboard = new Gameboard()
 Display.render(myGameboard)
 Display.setup(myGameboard)
+
+let popup = document.createElement("div")
+
