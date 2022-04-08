@@ -33,6 +33,22 @@ class Gameboard {
         return wasSuccessful
     }
 
+    computerPlay() {
+
+        let randomX
+        let randomY
+
+        // Code for random int:
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+        let wasSuccessful = false
+        while (!wasSuccessful) {
+            randomX = Math.floor(Math.random() * 3)
+            randomY = Math.floor(Math.random() * 3)
+            wasSuccessful = this.placeMarker(randomX, randomY)
+        }
+
+    }
+
     // to be a viable win group, all values must match and not blank
     areWinGroup(a,b,c) {
         if ((a == b && b == c) && (a != " ")) {
@@ -124,6 +140,12 @@ class Display {
 
                     if (gameBoard.checkWin() != "") {
                         Display.showPopup(gameBoard)
+                    } else { // add if to check if two-player
+                        gameBoard.computerPlay()
+                        Display.render(gameBoard)
+                        if (gameBoard.checkWin() != "") {
+                            Display.showPopup(gameBoard)
+                        }
                     }
                 })
 
@@ -178,6 +200,8 @@ class Display {
     }
 
 }
+
+// TODO: add scoreboard element and naming funcitonality, and optional 2-player mode
 
 let myGameboard = new Gameboard()
 Display.render(myGameboard)
