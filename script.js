@@ -5,6 +5,7 @@ class Gameboard {
               [" "," "," "],
               [" "," "," "]]
     #Xturn = true
+    #Moves = 0
 
     get boardState() {
         return this.#board
@@ -22,12 +23,12 @@ class Gameboard {
             }
 
             this.#Xturn = !this.#Xturn // change turn
+            this.#Moves += 1
 
             wasSuccessful = true
         } else {
             wasSuccessful = false
         }
-        // TODO: check for victory
 
         return wasSuccessful
     }
@@ -50,7 +51,7 @@ class Gameboard {
             b = this.#board[y][1]
             c = this.#board[y][2]
             if (this.areWinGroup(a,b,c)) {
-                return true
+                return a
             }  
         }
 
@@ -60,7 +61,7 @@ class Gameboard {
             b = this.#board[1][x]
             c = this.#board[2][x]
             if (this.areWinGroup(a,b,c)) {
-                return true
+                return a
             }  
         }
 
@@ -69,16 +70,28 @@ class Gameboard {
         b = this.#board[1][1]
         c = this.#board[2][2]
         if (this.areWinGroup(a,b,c)) {
-            return true
+            return a
         }  
         a = this.#board[0][2]
         b = this.#board[1][1]
         c = this.#board[2][0]
         if (this.areWinGroup(a,b,c)) {
-            return true
+            return a
         }
 
-        return false // only remaining possibility is no win
+        if (this.#Moves == 9) {
+            return "tie"
+        }
+
+        return "" // only remaining possibility is no win
+    }
+
+    resetBoard() {
+        this.#board = [[" "," "," "],
+                       [" "," "," "],
+                       [" "," "," "]]
+        this.#Xturn = true
+        this.#Moves = 0
     }
 
 }
@@ -108,11 +121,60 @@ class Display {
                 box.addEventListener("click", function() {
                     gameBoard.placeMarker(x,y)
                     Display.render(gameBoard)
-                    console.log(gameBoard.checkWin())
+
+                    if (gameBoard.checkWin() != "") {
+                        Display.showPopup(gameBoard)
+                    }
                 })
 
             }
         }
+    }
+
+    static showPopup(gameBoard) {
+
+        let winner = gameBoard.checkWin()
+        let message
+
+        if (winner == "X") {
+            message = "You won!"
+        } else if (winner == "O") {
+            message = "COM won."
+        } else {
+            message = "Tie game."
+        }
+
+        let dimmer = document.createElement('div')
+        dimmer.className = "dimmer"
+
+        let popup = document.createElement('div')
+        popup.className = "popup"
+        popup.innerHTML = `
+            <h2>${message}</h2>
+            <button class="again">Play Again</button>
+        ` 
+
+        let body = document.getElementsByTagName("body")[0]
+        body.appendChild(dimmer)
+        body.appendChild(popup)
+
+        let newgameButton = body.querySelector('.again')
+        newgameButton.addEventListener('click', function() {
+            Display.removePopup()
+            gameBoard.resetBoard()
+            Display.render(gameBoard)
+        })
+
+    }
+
+    static removePopup() {
+        let popup = document.querySelector('.popup')
+        let dimmer = document.querySelector('.dimmer')
+
+        let body = document.querySelector('body')
+
+        body.removeChild(popup)
+        body.removeChild(dimmer)
     }
 
 }
@@ -120,6 +182,3 @@ class Display {
 let myGameboard = new Gameboard()
 Display.render(myGameboard)
 Display.setup(myGameboard)
-
-let popup = document.createElement("div")
-
