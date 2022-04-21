@@ -4,3 +4,5 @@ Odin Project's fullstack Javascript course.
 
 This was used to practice Object-Oriented Programming in Javascript.
 I took it as an opportunity to become more familiar with classes.
+
+View the project here: https://sam8457.github.io/Odin-Tic-Tac-Toe/
